@@ -3,6 +3,9 @@
 #include "HellWorld.h"
 #include "GameFramework/Character.h"
 #include "../../../Interfaces/PlayerControllable.h"
+
+#include "../../../Structures/PlayerInfo/PlayerInfo.h"
+
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
@@ -12,16 +15,24 @@ class HELLWORLD_API APlayerCharacter : public ACharacter,
 	GENERATED_BODY()
 
 private :
+
+#pragma region Components
 	// 카메라 관련 컴포넌트
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent * SpringArm;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* Camera;
+#pragma endregion
 
+
+#pragma region Controller
 	// 폰을 조종하는 컨트롤러를 나타냅니다.
 	UPROPERTY()
 	class ATPSPlayerController * PlayerController;
+#pragma endregion
 
+
+#pragma region State
 	// 입력 값을 저장할 변수
 	UPROPERTY()
 	float HorizontalInputAxis;
@@ -31,6 +42,21 @@ private :
 	// 폰이 현재 조종당하는지를 나타내는 변수입니다.
 	UPROPERTY()
 	bool bIsControlled;
+
+	// 달리기 키를 누르고 있는지를 나타냅니다.
+	UPROPERTY()
+	bool bRunKeyPressed;
+
+	// 현재 달리는중인지를 나타냅니다.
+	UPROPERTY()
+	bool bIsRun;
+#pragma endregion
+
+	// 플레이어 캐릭터 정보를 나타냅니다.
+	FPlayerInfo PlayerInfo;
+
+	// 애니메이션 클래스
+	TSubclassOf<class UPlayerAnimInstance> PlayerCharacterAnimClass;
 
 
 public:
@@ -68,6 +94,15 @@ private :
 	// 이동중이지 않을 경우 회전을 잠급니다.
 	void RotationLock();
 
+	// 달리기 상태를 업데이트합니다.
+	void UpdateRunState();
+
+#pragma region Input Bind
+private :
+	void OnRunKeyPressed();
+	void OnRunKeyReleased();
+#pragma endregion
+
 public :
 	// 입력값 반환
 	FORCEINLINE float GetHorizontalInputAxis() const
@@ -83,5 +118,11 @@ public :
 			(FMath::Abs(GetVerticalInputAxis()) > 0.01f);
 	}
 
+	// 달리기 상태 반환
+	FORCEINLINE bool IsRun() const
+	{ return bIsRun; }
 
+	// 플레이어 정보를 반환합니다.
+	FORCEINLINE const FPlayerInfo* GetPlayerInfo() const
+	{ return &PlayerInfo; }
 };
