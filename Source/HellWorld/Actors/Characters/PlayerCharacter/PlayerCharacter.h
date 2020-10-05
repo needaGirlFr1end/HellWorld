@@ -101,6 +101,7 @@ private :
 private :
 	void OnRunKeyPressed();
 	void OnRunKeyReleased();
+	void OnJumpKeyPressed();
 #pragma endregion
 
 public :
@@ -121,6 +122,10 @@ public :
 	// 달리기 상태 반환
 	FORCEINLINE bool IsRun() const
 	{ return bIsRun; }
+
+	// 공중에 떠있음 상태 반환
+	FORCEINLINE bool IsInAir() const
+	{ return GetCharacterMovement()->IsFalling(); }
 
 	// 플레이어 정보를 반환합니다.
 	FORCEINLINE const FPlayerInfo* GetPlayerInfo() const

@@ -23,6 +23,9 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	// 캐릭터 속력 얻기
 	OwnerVelocityLength = PlayerCharacter->GetVelocity().Size();
 
+	// 캐릭터가 점프중인지 확인
+	bIsInAir = PlayerCharacter->IsInAir();
+
 	// 캐릭터가 오직 옆으로 이동중인지 확인
 	bOnlySideMove = (FMath::Abs(XYDirectionInput.X) < 0.1f &&
 		FMath::Abs(XYDirectionInput.Y) > 0.1f);

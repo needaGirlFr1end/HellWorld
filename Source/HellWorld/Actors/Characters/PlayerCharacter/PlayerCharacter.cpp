@@ -40,7 +40,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		this, &APlayerCharacter::OnRunKeyPressed);
 	PlayerInputComponent->BindAction(TEXT("Run"), EInputEvent::IE_Released,
 		this, &APlayerCharacter::OnRunKeyReleased);
-
+	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed,
+		this, &APlayerCharacter::OnJumpKeyPressed);
 }
 
 
@@ -123,8 +124,10 @@ void APlayerCharacter::LoadAsset()
 
 void APlayerCharacter::RotationLock()
 {
-	// 이동 키가 눌렸다면 캐릭터를 컨트롤러 회전값으로 부드럽게 회전시킵니다.
-	GetCharacterMovement()->bUseControllerDesiredRotation = IsMoveKeyPressed();
+	// 점프중이 아닐 때, 이동 키가 눌렸다면 캐릭터를 컨트롤러 회전값으로 
+	// 부드럽게 회전시킵니다.
+	GetCharacterMovement()->bUseControllerDesiredRotation = 
+		IsMoveKeyPressed() && !IsInAir();
 }
 
 
@@ -153,6 +156,12 @@ void APlayerCharacter::OnRunKeyReleased()
 {
 	// 달리기 키 떼어짐 상태로 변경
 	bRunKeyPressed = false;
+}
+
+void APlayerCharacter::OnJumpKeyPressed()
+{
+	// 점프
+	Jump();
 }
 
 #pragma endregion

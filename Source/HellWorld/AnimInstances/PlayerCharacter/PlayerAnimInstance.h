@@ -27,6 +27,10 @@ protected :
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character State")
 	bool bOnlySideMove;
 
+	// 캐릭터가 공중에 떠있는지를 나타냅니다.
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character State")
+	bool bIsInAir;
+
 	// Bone : Hip 의 추가 회전값을 나타냅니다.
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Bone Trasnform")
 	FRotator HipAdditiveRotation;
