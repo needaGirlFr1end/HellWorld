@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "HellWorld.h"
 #include "Engine/GameInstance.h"
 
 #include "Engine/AssetManager.h"
@@ -25,7 +25,7 @@ private :
 	template<typename T>
 	T* RegisterManagerClass()
 	{
-		IManagerClass* managerClassInstance = NewObject<T>(this);
+		IManagerClassBase* managerClassInstance = NewObject<T>(this);
 		managerClassInstance->InitManagerClass();
 		ManagerClasses.Add(managerClassInstance);
 
@@ -41,8 +41,6 @@ public :
 	template <typename T>
 	T* GetManagerClass()
 	{
-		auto streamableManager = GetStreamableManager();
-		if (Cast<T>(streamableManager) != nullptr) return streamableManager;
 
 		// 배열에 추가된 요소들을 확인합니다.
 		for (auto managerInst : ManagerClasses)

@@ -60,6 +60,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	float Value3;
 
+public :
+	static FString ItemCodeToDataTableKey(FString itemCode);
+
 
 
 };

@@ -2,10 +2,13 @@
 
 
 #include "HWGameInstance.h"
+#include "../ManagerClass/DatatableManager/DatatableManager.h"
 
 void UHWGameInstance::Init()
 {
 	Super::Init();
+
+	RegisterManagerClass<UDatatableManager>();
 
 }
 
