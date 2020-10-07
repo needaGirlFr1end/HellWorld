@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "HellWorld.h"
 #include "GameFramework/PlayerController.h"
 #include "TPSPlayerController.generated.h"
 
@@ -18,6 +18,23 @@ private :
 	// 조종중인 폰을 나타냅니다.
 	class IPlayerControllable* ControllablePawn;
 
+	// 캐릭터 위젯 클래스를 나타냅니다.
+	TSubclassOf<class UWidgetCharacterInfo> CharacterWidgetClass;
+
+	// 캐릭터 위젯 인스턴스를 나타냅니다.
+	UPROPERTY()
+	class UWidgetCharacterInfo* CharacterWidgetInstance;
+
+	// 캐릭터 위젯이 표시중인지 확인합니다.
+	UPROPERTY()
+	bool bActivatedCharacterWidget;
+
+public :
+	ATPSPlayerController();
+
+private :
+	void LoadAsset();
+
 protected :
 	virtual void SetupInputComponent() override;
 
@@ -30,5 +47,9 @@ private :
 	void InputMouseY(float axis);
 	void InputHorizontal(float axis);
 	void InputVertical(float axis);
+	void OpenInfo();
+
+public :
+	class UWidgetCharacterInfo* GetCharacterInfoWidgetInstance();
 	
 };

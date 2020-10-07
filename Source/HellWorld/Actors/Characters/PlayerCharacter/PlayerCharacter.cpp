@@ -2,6 +2,8 @@
 #include "../../Controllers/PlayerController/TPSPlayerController.h"
 #include "../../../AnimInstances/PlayerCharacter/PlayerAnimInstance.h"
 
+#include "../../../Components/VicinityItemDetector/VicinityItemDetectorComponent.h"
+
 APlayerCharacter::APlayerCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -88,6 +90,7 @@ void APlayerCharacter::InitializeComponents()
 		TEXT("SkeletalMesh'/Game/Resources/Characters/PlayerCharacter/Base/BaseBody.BaseBody'"));
 	if (SK_BASE.Succeeded()) GetMesh()->SetSkeletalMesh(SK_BASE.Object);
 
+#pragma region Camera Settings...
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SPRING_ARM"));
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("CAMERA_COMPONENT"));
 
@@ -99,6 +102,14 @@ void APlayerCharacter::InitializeComponents()
 
 	// 컨트롤러 yaw 회전에 맞춰 캐릭터가 회전하지 않도록 합니다.
 	bUseControllerRotationYaw = false;
+#pragma endregion
+
+#pragma region Vicinity ItemDetecter Component Settings...
+	VicinityItemDetector = CreateDefaultSubobject<UVicinityItemDetectorComponent>(TEXT("VICINITY_ITEM_DETECTOR"));
+	VicinityItemDetector->SetupAttachment(GetRootComponent());
+#pragma endregion
+
+
 
 
 #pragma region Animation Settings...

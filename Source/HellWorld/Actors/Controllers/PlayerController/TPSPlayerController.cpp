@@ -3,6 +3,20 @@
 
 #include "TPSPlayerController.h"
 #include "../../../Interfaces/PlayerControllable.h"
+#include "../../../Widgets/CharacterInfo/WidgetCharacterInfo.h"
+
+ATPSPlayerController::ATPSPlayerController()
+{
+	LoadAsset();
+}
+
+void ATPSPlayerController::LoadAsset()
+{
+	static ConstructorHelpers::FClassFinder<UWidgetCharacterInfo> WIDGETBP_CHARACTER(
+		TEXT("WidgetBlueprint'/Game/Resources/Blueprints/Widgets/WidgetBP_CharacterInfo.WidgetBP_CharacterInfo_C'"));
+	if (WIDGETBP_CHARACTER.Succeeded())
+		CharacterWidgetClass = WIDGETBP_CHARACTER.Class;
+}
 
 
 void ATPSPlayerController::SetupInputComponent()
@@ -14,6 +28,8 @@ void ATPSPlayerController::SetupInputComponent()
 
 	InputComponent->BindAxis(TEXT("Horizontal"), this, &ATPSPlayerController::InputHorizontal);
 	InputComponent->BindAxis(TEXT("Vertical"), this, &ATPSPlayerController::InputVertical);
+
+	InputComponent->BindAction(TEXT("OpenInfo"), EInputEvent::IE_Pressed, this, &ATPSPlayerController::OpenInfo);
 }
 
 void ATPSPlayerController::OnPossess(APawn* aPawn)
@@ -60,4 +76,49 @@ void ATPSPlayerController::InputVertical(float axis)
 	FVector forwardVector = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::X);
 
 	ControllablePawn->OnControllerVerticalInput(forwardVector, axis);
+}
+
+void ATPSPlayerController::OpenInfo()
+{
+	// CharacterInfoWidget 이 활성화중이라면
+	if (bActivatedCharacterWidget)
+	{
+		// 위젯 비활성화 상태로 설정합니다.
+		bActivatedCharacterWidget = false;
+
+		// 마우스 커서를 숨깁니다.
+		bShowMouseCursor = false;
+
+		// 위젯을 화면에서 탈착시킵니다.
+		GetCharacterInfoWidgetInstance()->RemoveFromParent();
+
+		// 게임 입력만 받도록 합니다.
+		SetInputMode(FInputModeGameOnly());
+	}
+	// CharacterInfoWidget 이 비활성화중이라면
+	else
+	{
+		// 위젯 활성화 상태로 설정합니다.
+		bActivatedCharacterWidget = true;
+
+		// 마우스 커서를 표시합니다.
+		bShowMouseCursor = true;
+
+		// 위젯을 화면에 부착시킵니다.
+		GetCharacterInfoWidgetInstance()->AddToViewport();
+
+		// 게임, UI 입력을 동시에 받도록 합니다.
+		SetInputMode(FInputModeGameAndUI());
+	}
+
+}
+
+UWidgetCharacterInfo* ATPSPlayerController::GetCharacterInfoWidgetInstance()
+{
+	if (!IsValid(CharacterWidgetInstance))
+	{
+		CharacterWidgetInstance = CreateWidget<UWidgetCharacterInfo>(this, CharacterWidgetClass);
+	}
+
+	return CharacterWidgetInstance;
 }

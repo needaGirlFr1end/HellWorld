@@ -22,6 +22,8 @@ private :
 	class USpringArmComponent * SpringArm;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* Camera;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Vicinity Item Detector", meta = (AllowPrivateAccess = "true"))
+	class UVicinityItemDetectorComponent* VicinityItemDetector;
 #pragma endregion
 
 
