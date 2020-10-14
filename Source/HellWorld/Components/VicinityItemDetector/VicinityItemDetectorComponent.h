@@ -11,6 +11,13 @@ class HELLWORLD_API UVicinityItemDetectorComponent : public USphereComponent
 	GENERATED_BODY()
 
 private :
+	UPROPERTY()
+	class APlayerCharacter* PlayerCharacter;
+
+	// Charater Info Widet 객체
+	UPROPERTY()
+	class UWidgetCharacterInfo * CharacterInfoWidgetInstance;
+
 	// 가까운 아이템 액터들을 저장할 배열
 	TArray<class AWorldItem*> VicinityItems;
 
@@ -30,5 +37,13 @@ private :
 		int32 OtherBodyIndex,
 		bool bFromSweep,
 		const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnVicinityItemLost(
+		UPrimitiveComponent* OverlappedComponent, 
+		AActor* OtherActor, 
+		UPrimitiveComponent* OtherComp, 
+		int32 OtherBodyIndex);
+
 
 };

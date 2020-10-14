@@ -132,4 +132,8 @@ public :
 	// 플레이어 정보를 반환합니다.
 	FORCEINLINE const FPlayerInfo* GetPlayerInfo() const
 	{ return &PlayerInfo; }
+
+	// 조종중인 ATPSPlayerController 객체를 반환합니다.
+	FORCEINLINE class ATPSPlayerController* GetPlayerController() const
+	{ return PlayerController; }
 };

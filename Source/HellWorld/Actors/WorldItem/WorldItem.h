@@ -57,6 +57,10 @@ private :
 public :
 	void InitializeItemData(FString itemCode, int32 itemCount = 1);
 
+public :
+	FORCEINLINE FItemData* GetItemData()
+	{ return &ItemData; }
+
 
 
 

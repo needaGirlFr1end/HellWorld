@@ -3,3 +3,23 @@
 
 #include "WidgetItemSlot.h"
 
+void UWidgetItemSlot::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+	FindAllWidget();
+}
+
+void UWidgetItemSlot::FindAllWidget()
+{
+
+}
+
+
+void UWidgetItemSlot::InitializeSlot(
+	UWidgetCharacterInfo* ownerWidget,
+	FItemData itemData,
+	AWorldItem* vicinityWorldItemActor)
+{
+
+}
