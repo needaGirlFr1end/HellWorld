@@ -1,5 +1,7 @@
 #include "WidgetCharacterInfo.h"
 
+#include "../../Actors/Controllers/PlayerController/TPSPlayerController.h"
+
 #include "WidgetItemSlot.h"
 #include "../../Actors/WorldItem/WorldItem.h"
 
@@ -39,6 +41,11 @@ void UWidgetCharacterInfo::NativeOnInitialized()
 	FindAllWidget();
 }
 
+void UWidgetCharacterInfo::InitializeCharacterInfoWidget(ATPSPlayerController* playerController)
+{
+	PlayerController = playerController;
+}
+
 void UWidgetCharacterInfo::AddVicinityItemSlot(class AWorldItem* newItem)
 {
 	// 아이템 슬롯을 생성합니다.
@@ -68,4 +75,33 @@ void UWidgetCharacterInfo::RemoveVicinityItemSlot(class AWorldItem* newItem)
 	//vicinityItemSlotInstance->RemoveFromParent();
 	VicinityItemView->RemoveChild(vicinityItemSlotInstance);
 
+}
+
+void UWidgetCharacterInfo::UpdateInventoryItems(const TArray<FItemData>& itemDatas)
+{
+	// 표시중인 아이템 슬롯들 모두 제거 -> 인벤토리 아이템 정보들로 새롭게 생성
+
+	// 현재 표시중인 슬롯들을 제거합니다.
+	for (auto slotInstances : InventoryItemSlotInstances)
+	{
+		slotInstances->RemoveFromParent();
+	}
+
+	// 표시중인 슬롯 배열을 비웁니다.
+	InventoryItemSlotInstances.Empty();
+
+	for (auto inventoryItemData : itemDatas)
+	{
+		// 표시할 아이템 슬롯을 생성합니다.
+		UWidgetItemSlot* itemSlotInstances = CreateItemSlotWidget();
+
+		// 아이템 슬롯을 위젯에 추가합니다.
+		InventoryItemView->AddChild(itemSlotInstances);
+
+		// 표시중인 슬롯 배열에 추가합니다.
+		InventoryItemSlotInstances.Add(itemSlotInstances);
+
+		// 아이템 슬롯 정보를 초기화합니다.
+		itemSlotInstances->InitializeSlot(this, inventoryItemData);
+	}
 }

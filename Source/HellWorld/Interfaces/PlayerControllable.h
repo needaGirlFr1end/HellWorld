@@ -39,9 +39,10 @@ public:
 	///     - 반환 타입 void : PURE_VIRTUAL(ClassType::Method, );
 	///     - 반환 타입 not void : PURE_VIRTUAL(ClassType::Method, return value;);
 
-	virtual bool IsControlled() const PURE_VIRTUAL(IPlayerControllable::IsControlled, return false;);
-	virtual void OnControllerHorizontalInput(FVector worldDirection, float axis) PURE_VIRTUAL(IPlayerControllable::OnControllerHorizontalInput, );
-	virtual void OnControllerVerticalInput(FVector worldDirection, float axis) PURE_VIRTUAL(IPlayerControllable::OnControllerVerticalInput, );
+	virtual bool IsControlled() const												PURE_VIRTUAL(IPlayerControllable::IsControlled, return false;);
+	virtual void OnControllerHorizontalInput(FVector worldDirection, float axis)	PURE_VIRTUAL(IPlayerControllable::OnControllerHorizontalInput, );
+	virtual void OnControllerVerticalInput(FVector worldDirection, float axis)		PURE_VIRTUAL(IPlayerControllable::OnControllerVerticalInput, );
 
+	virtual class UInventoryComponent* GetInventoryComponent() const PURE_VIRTUAL(IPlayerControllable::GetInventoryComponent, return nullptr;);
 
 };

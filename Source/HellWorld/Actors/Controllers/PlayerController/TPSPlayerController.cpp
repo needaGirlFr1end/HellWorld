@@ -118,6 +118,7 @@ UWidgetCharacterInfo* ATPSPlayerController::GetCharacterInfoWidgetInstance()
 	if (!IsValid(CharacterWidgetInstance))
 	{
 		CharacterWidgetInstance = CreateWidget<UWidgetCharacterInfo>(this, CharacterWidgetClass);
+		CharacterWidgetInstance->InitializeCharacterInfoWidget(this);
 	}
 
 	return CharacterWidgetInstance;

@@ -3,6 +3,7 @@
 #include "../../../AnimInstances/PlayerCharacter/PlayerAnimInstance.h"
 
 #include "../../../Components/VicinityItemDetector/VicinityItemDetectorComponent.h"
+#include "../../../Components/Inventory/InventoryComponent.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -109,6 +110,9 @@ void APlayerCharacter::InitializeComponents()
 	VicinityItemDetector->SetupAttachment(GetRootComponent());
 #pragma endregion
 
+#pragma region Vicinity ItemDetecter Component Settings...
+	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("INVENTORY"));
+#pragma endregion
 
 
 

@@ -52,4 +52,7 @@ private :
 public :
 	class UWidgetCharacterInfo* GetCharacterInfoWidgetInstance();
 	
+	// 조종중인 Pawn 을 반환합니다.
+	FORCEINLINE class IPlayerControllable* GetControllablePawn() const
+	{ return ControllablePawn; } 
 };

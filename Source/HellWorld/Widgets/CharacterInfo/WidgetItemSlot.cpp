@@ -1,7 +1,14 @@
 #include "WidgetItemSlot.h"
 
 #include "../../Actors/WorldItem/WorldItem.h"
+#include "../../Actors/Controllers/PlayerController/TPSPlayerController.h"
+#include "../../Actors/Characters/PlayerCharacter/PlayerCharacter.h"
+
+#include "../../Interfaces/PlayerControllable.h"
+
+#include "../../Components/Inventory/InventoryComponent.h"
 #include "WidgetCharacterInfo.h"
+
 
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
@@ -33,6 +40,7 @@ void UWidgetItemSlot::InitializeSlot(
 	AWorldItem* vicinityWorldItemActor)
 {
 	OwnerWidget				= ownerWidget;
+	Inventory				= OwnerWidget->GetPlayerController()->GetControllablePawn()->GetInventoryComponent();
 	ItemData				= itemData;
 	VicinityWorldItemActor	= vicinityWorldItemActor;
 
@@ -48,6 +56,8 @@ void UWidgetItemSlot::OnWidgetLeftClicked()
 {
 	if (IsValid(VicinityWorldItemActor))
 	{
+		Inventory->AddItem(ItemData);
+
 		// 슬롯이 나타내는 WorldItem 액터를 제거합니다.
 		VicinityWorldItemActor->Destroy();
 		VicinityWorldItemActor = nullptr;

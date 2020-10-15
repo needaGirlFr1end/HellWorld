@@ -23,6 +23,10 @@ private :
 	class UTextBlock* ItemNameTextBlock;
 	class UTextBlock* ItemCountTextBlock;
 
+	// 플레이어 캐릭터에 추가된 인벤토리 컴포넌트를 나타냅니다.
+	UPROPERTY()
+	class UInventoryComponent * Inventory;
+
 	// 슬롯의 아이템 정보
 	UPROPERTY()
 	FItemData ItemData;

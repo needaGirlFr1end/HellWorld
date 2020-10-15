@@ -22,8 +22,13 @@ private :
 	class USpringArmComponent * SpringArm;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* Camera;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Vicinity Item Detector", meta = (AllowPrivateAccess = "true"))
+
+	// 가까운 아이템 감지 컴포넌트
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Vicinity Item Detector", meta = (AllowPrivateAccess = "true"))
 	class UVicinityItemDetectorComponent* VicinityItemDetector;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
+	class UInventoryComponent * Inventory;
 #pragma endregion
 
 
@@ -136,4 +141,8 @@ public :
 	// 조종중인 ATPSPlayerController 객체를 반환합니다.
 	FORCEINLINE class ATPSPlayerController* GetPlayerController() const
 	{ return PlayerController; }
+
+	// 인벤토리 컴포넌트를 반환합니다.
+	FORCEINLINE class UInventoryComponent* GetInventoryComponent() const override
+	{ return Inventory; }
 };
