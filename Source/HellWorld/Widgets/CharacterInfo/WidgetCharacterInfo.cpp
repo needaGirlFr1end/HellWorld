@@ -55,3 +55,17 @@ void UWidgetCharacterInfo::AddVicinityItemSlot(class AWorldItem* newItem)
 		*newItem->GetItemData(),
 		newItem);
 }
+
+void UWidgetCharacterInfo::RemoveVicinityItemSlot(class AWorldItem* newItem)
+{
+	// VicinityItemSlotInstances 에서 newItem 와 일치하는 키를 갖는 요소의 값을 저장합니다.
+	UWidgetItemSlot* vicinityItemSlotInstance = *VicinityItemSlotInstances.Find(newItem);
+
+	// VicinityItemSlotInstances 에서 newItem 와 일치하는 키를 갖는 요소를 제거합니다.
+	VicinityItemSlotInstances.Remove(newItem);
+
+	// 부모 위젯에서 SlotWidget 을 제거합니다.
+	//vicinityItemSlotInstance->RemoveFromParent();
+	VicinityItemView->RemoveChild(vicinityItemSlotInstance);
+
+}

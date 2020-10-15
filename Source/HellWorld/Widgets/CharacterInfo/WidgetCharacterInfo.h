@@ -42,6 +42,10 @@ public :
 	// 가까운 아이템을 위젯에 표시합니다.
 	void AddVicinityItemSlot(class AWorldItem* newItem);
 
+	// 가까운 아이템을 표시하는 위젯을 제거합니다.
+	void RemoveVicinityItemSlot(class AWorldItem* newItem);
+
+
 
 
 	

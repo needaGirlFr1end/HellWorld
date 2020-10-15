@@ -80,7 +80,7 @@ void UVicinityItemDetectorComponent::OnVicinityItemLost(
 	// 배열에서 제거합니다.
 	VicinityItems.RemoveAt(vicinityItemIndex);
 
-
-
+	// 아이템 슬롯에서 제거합니다.
+	CharacterInfoWidgetInstance->RemoveVicinityItemSlot(vicinityItem);
 }
 
