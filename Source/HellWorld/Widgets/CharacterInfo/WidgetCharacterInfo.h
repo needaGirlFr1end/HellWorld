@@ -4,6 +4,7 @@
 
 #include "HellWorld.h"
 #include "Blueprint/UserWidget.h"
+#include "../../Structures/ItemData/ItemData.h"
 #include "WidgetCharacterInfo.generated.h"
 
 /**

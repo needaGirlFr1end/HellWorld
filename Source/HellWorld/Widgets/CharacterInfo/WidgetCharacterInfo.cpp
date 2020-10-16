@@ -26,6 +26,7 @@ void UWidgetCharacterInfo::LoadAsset()
 void UWidgetCharacterInfo::FindAllWidget()
 {
 	VicinityItemView = Cast<UScrollBox>(GetWidgetFromName(TEXT("ScrollBox_VicinityItems")));
+	InventoryItemView = Cast<UScrollBox>(GetWidgetFromName(TEXT("ScrollBox_Inventory")));
 }
 
 UWidgetItemSlot* UWidgetCharacterInfo::CreateItemSlotWidget()
