@@ -55,6 +55,11 @@ private :
 	void OnWorldItemMeshLoaded();
 
 public :
+	// 월드에 WorldItem 액터를 생성합니다.
+	static AWorldItem* SpawnWorldItem(
+		class UWorld* world, FString itemCode, int32 itemCount, 
+		FVector spawnLocation, FRotator spawnRotation);
+
 	void InitializeItemData(FString itemCode, int32 itemCount = 1);
 
 public :

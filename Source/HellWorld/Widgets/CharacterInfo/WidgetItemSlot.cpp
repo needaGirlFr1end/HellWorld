@@ -36,11 +36,13 @@ void UWidgetItemSlot::FindAllWidget()
 
 void UWidgetItemSlot::InitializeSlot(
 	UWidgetCharacterInfo* ownerWidget,
-	FItemData itemData,
+	FItemData itemData, 
+	EItemSlotType slotType,
 	AWorldItem* vicinityWorldItemActor)
 {
 	OwnerWidget				= ownerWidget;
 	Inventory				= OwnerWidget->GetPlayerController()->GetControllablePawn()->GetInventoryComponent();
+	ItemSlotType			= slotType;
 	ItemData				= itemData;
 	VicinityWorldItemActor	= vicinityWorldItemActor;
 
@@ -54,12 +56,41 @@ void UWidgetItemSlot::InitializeSlot(
 
 void UWidgetItemSlot::OnWidgetLeftClicked()
 {
-	if (IsValid(VicinityWorldItemActor))
+	switch (ItemSlotType)
 	{
-		Inventory->AddItem(ItemData);
+	case EItemSlotType::IS_Vicinity:
+		if (IsValid(VicinityWorldItemActor))
+		{
+			Inventory->AddItem(ItemData);
 
-		// 슬롯이 나타내는 WorldItem 액터를 제거합니다.
-		VicinityWorldItemActor->Destroy();
-		VicinityWorldItemActor = nullptr;
+			// 슬롯이 나타내는 WorldItem 액터를 제거합니다.
+			VicinityWorldItemActor->Destroy();
+			VicinityWorldItemActor = nullptr;
+		}
+		break;
+
+	case EItemSlotType::IS_Inventory:
+		break;
 	}
+
+}
+
+void UWidgetItemSlot::OnWidgetRightClicked()
+{
+	if (ItemSlotType != EItemSlotType::IS_Inventory) return;
+
+	// 플레이어 캐릭터 객체를 얻습니다.
+	APlayerCharacter* playerCharacter =
+		Cast<APlayerCharacter>(OwnerWidget->GetPlayerController()->GetControllablePawn());
+
+	// 아이템 생성
+	AWorldItem::SpawnWorldItem(
+		GetWorld(),
+		ItemData.ItemCode,
+		ItemData.ItemCount,
+		playerCharacter->GetActorLocation(),
+		playerCharacter->GetActorRotation());
+
+	// 인벤토리에서 해당 아이템을 제거합니다.
+	Inventory->RemoveItem(ItemData);
 }

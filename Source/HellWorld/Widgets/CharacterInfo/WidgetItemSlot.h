@@ -3,9 +3,10 @@
 #pragma once
 
 #include "HellWorld.h"
-#include "Blueprint/UserWidget.h"
+#include "../SlotWidgetBase/SlotWidgetBase.h"
 
 #include "../../Structures/ItemData/ItemData.h"
+#include "../../Enums/ItemSlotType.h"
 
 #include "WidgetItemSlot.generated.h"
 
@@ -13,7 +14,7 @@
  * 
  */
 UCLASS()
-class HELLWORLD_API UWidgetItemSlot : public UUserWidget
+class HELLWORLD_API UWidgetItemSlot : public USlotWidgetBase
 {
 	GENERATED_BODY()
 	
@@ -31,6 +32,10 @@ private :
 	UPROPERTY()
 	FItemData ItemData;
 
+	// 슬롯 타입을 나타냅니다.
+	UPROPERTY()
+	EItemSlotType ItemSlotType;
+
 	// 해당 슬롯 위젯을 소유하는 Widget 객체
 	UPROPERTY()
 	class UWidgetCharacterInfo * OwnerWidget;
@@ -45,10 +50,14 @@ public :
 private : 
 	void FindAllWidget();
 
+protected :
+	// 버튼 오른쪽 클릭시 호출될 메서드입니다.
+	virtual void OnWidgetRightClicked() override;
+
 public :
 	// 슬롯 정보를 초기화합니다.
 	void InitializeSlot(class UWidgetCharacterInfo* ownerWidget, 
-		FItemData itemData, 
+		FItemData itemData, EItemSlotType slotType,
 		class AWorldItem* vicinityWorldItemActor = nullptr);
 
 private :

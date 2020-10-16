@@ -4,6 +4,7 @@
 
 #include "WidgetItemSlot.h"
 #include "../../Actors/WorldItem/WorldItem.h"
+#include "../../Enums/ItemSlotType.h"
 
 #include "Components/ScrollBox.h"
 
@@ -61,6 +62,7 @@ void UWidgetCharacterInfo::AddVicinityItemSlot(class AWorldItem* newItem)
 	itemSlotInstance->InitializeSlot(
 		this, 
 		*newItem->GetItemData(),
+		EItemSlotType::IS_Vicinity,
 		newItem);
 }
 
@@ -103,6 +105,6 @@ void UWidgetCharacterInfo::UpdateInventoryItems(const TArray<FItemData>& itemDat
 		InventoryItemSlotInstances.Add(itemSlotInstances);
 
 		// 아이템 슬롯 정보를 초기화합니다.
-		itemSlotInstances->InitializeSlot(this, inventoryItemData);
+		itemSlotInstances->InitializeSlot(this, inventoryItemData, EItemSlotType::IS_Inventory);
 	}
 }

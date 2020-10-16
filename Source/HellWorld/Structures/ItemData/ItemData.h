@@ -63,6 +63,12 @@ public:
 public :
 	static FString ItemCodeToDataTableKey(FString itemCode);
 
+	FORCEINLINE bool operator==(const FItemData& value) const
+	{
+		return (this->ItemCode == value.ItemCode) &&
+			(this->ItemCount == value.ItemCount);
+	}
+
 
 
 };

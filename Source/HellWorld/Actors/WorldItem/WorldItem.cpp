@@ -39,6 +39,18 @@ void AWorldItem::InitializeComponents()
 }
 
 
+AWorldItem* AWorldItem::SpawnWorldItem(UWorld* world, 
+	FString itemCode, int32 itemCount, 
+	FVector spawnLocation, FRotator spawnRotation)
+{
+	AWorldItem* worldItem = world->SpawnActor<AWorldItem>();
+
+	worldItem->SetActorLocationAndRotation(spawnLocation, spawnRotation);
+	worldItem->InitializeItemData(itemCode, itemCount);
+
+	return worldItem;
+}
+
 void AWorldItem::InitializeItemData(FString itemCode, int32 itemCount)
 {
 	// 월드에 생성된 아이템이 아니라면 아이템 코드를 설정합니다.

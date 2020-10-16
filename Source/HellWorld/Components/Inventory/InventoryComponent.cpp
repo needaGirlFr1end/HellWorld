@@ -34,3 +34,17 @@ void UInventoryComponent::AddItem(FItemData itemData)
 
 }
 
+void UInventoryComponent::RemoveItem(FItemData itemData)
+{
+	// InventoryItemDatas 배열에서 itemData 일치하는 요소의 인덱스를 저장합니다.
+	int32 inventorySlotIndex = InventoryItemDatas.Find(itemData);
+	/// - TArray.Find() 로 사용될 데이터의 형식에는 == 연산자가 오버로드 되어있어야 합니다.
+
+	if (inventorySlotIndex == INDEX_NONE) return;
+
+	// inventorySlotIndex 와 일치하는 인덱스를 갖는 요소를 제거합니다.
+	InventoryItemDatas.RemoveAt(inventorySlotIndex);
+
+	// 위젯에 변경된 정보를 업데이트 합니다.
+	CharacterInfoWidget->UpdateInventoryItems(InventoryItemDatas);
+}

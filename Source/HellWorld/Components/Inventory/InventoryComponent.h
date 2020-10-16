@@ -32,5 +32,8 @@ public:
 public :
 	// 인벤토리에 아이템을 추가합니다.
 	void AddItem(FItemData itemData);
+
+	// 인벤토리에서 아이템을 제거합니다.
+	void RemoveItem(FItemData itemData);
 		
 };
