@@ -1,15 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "HellWorld.h"
 #include "Blueprint/UserWidget.h"
 #include "../../Structures/ItemData/ItemData.h"
+#include "../../Util/ObjectPool/ObjectPool.h"
 #include "WidgetCharacterInfo.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class HELLWORLD_API UWidgetCharacterInfo : public UUserWidget
 {
@@ -34,6 +30,10 @@ private:
 
 	// 인벤토리에 표시중인 슬롯들
 	TArray<class UWidgetItemSlot*> InventoryItemSlotInstances;
+
+	// 생성한 UWidgetItemSlot 객체들을 저장하고 있을 풀 객체
+	UPROPERTY()
+	UObjectPool* ItemSlotPool;
 
 
 public :

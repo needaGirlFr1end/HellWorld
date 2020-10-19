@@ -44,3 +44,4 @@ public :
 	/// - callOnRecycleStart : 재사용 가능한 객체를 찾았을 경우 OnRecycleStart() 를 호출시킬 것인지를 결정합니다.
 	IObjectPoolable* GetRecycledObject(bool callOnRecycleStart = true);
 };
+

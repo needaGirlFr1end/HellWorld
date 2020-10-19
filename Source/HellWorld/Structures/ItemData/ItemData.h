@@ -63,6 +63,20 @@ public:
 public :
 	static FString ItemCodeToDataTableKey(FString itemCode);
 
+	// itemData 내용을 적용시킵니다.
+	FORCEINLINE void ApplyItemData(const FItemData* itemData)
+	{
+		// itemData 가 nullptr 라면 정보를 비웁니다.
+		if (itemData == nullptr)
+		{
+			ItemType = EItemType::IT_None;
+			ItemCode = FString(TEXT(""));
+			bIsEquipped = false;
+		}
+		// nullptr 가 아니라면 정보를 복사합니다.
+		else (*this) = (*itemData);
+	}
+
 	FORCEINLINE bool operator==(const FItemData& value) const
 	{
 		return (this->ItemCode == value.ItemCode) &&

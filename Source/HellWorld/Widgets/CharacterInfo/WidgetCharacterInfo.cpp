@@ -32,8 +32,22 @@ void UWidgetCharacterInfo::FindAllWidget()
 
 UWidgetItemSlot* UWidgetCharacterInfo::CreateItemSlotWidget()
 {
-	return CreateWidget<UWidgetItemSlot>(this, ItemSlotWidgetClass);
+	// 재활용 가능한 객체를 얻습니다.
+	UWidgetItemSlot* widgetItemSlot = Cast<UWidgetItemSlot>(ItemSlotPool->GetRecycledObject());
 
+	// 만약 재활용 가능한 객체가 존재하지 않는다면
+	if (widgetItemSlot == nullptr)
+	{
+		// UWidgetItemSlot 객체를 생성하며 ItemSlotPool 에 등록하고,
+		// widgetItemSlot 에 생성한 객체를 할당합니다.
+		widgetItemSlot = ItemSlotPool->RegisterRecyclableObject(
+			CreateWidget<UWidgetItemSlot>(this, ItemSlotWidgetClass));
+
+		UE_LOG(LogTemp, Warning, TEXT("CreateWidget<UWidgetItemSlot>"));
+	}
+
+	// 사용 가능한 객체를 반환합니다.
+	return widgetItemSlot;
 }
 
 void UWidgetCharacterInfo::NativeOnInitialized()
@@ -41,6 +55,8 @@ void UWidgetCharacterInfo::NativeOnInitialized()
 	Super::NativeOnInitialized();
 
 	FindAllWidget();
+
+	ItemSlotPool = NewObject<UObjectPool>();
 }
 
 void UWidgetCharacterInfo::InitializeCharacterInfoWidget(ATPSPlayerController* playerController)
@@ -78,6 +94,8 @@ void UWidgetCharacterInfo::RemoveVicinityItemSlot(class AWorldItem* newItem)
 	//vicinityItemSlotInstance->RemoveFromParent();
 	VicinityItemView->RemoveChild(vicinityItemSlotInstance);
 
+	// 재활용 가능한 상태로 변경합니다.
+	vicinityItemSlotInstance->SetCanRecyclable(true);
 }
 
 void UWidgetCharacterInfo::UpdateInventoryItems(const TArray<FItemData>& itemDatas)
@@ -88,6 +106,9 @@ void UWidgetCharacterInfo::UpdateInventoryItems(const TArray<FItemData>& itemDat
 	for (auto slotInstances : InventoryItemSlotInstances)
 	{
 		slotInstances->RemoveFromParent();
+
+		// 재활용 가능한 상태로 변경합니다.
+		slotInstances->SetCanRecyclable(true);
 	}
 
 	// 표시중인 슬롯 배열을 비웁니다.

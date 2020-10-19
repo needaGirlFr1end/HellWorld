@@ -4,6 +4,7 @@
 
 #include "HellWorld.h"
 #include "../SlotWidgetBase/SlotWidgetBase.h"
+#include "../../Interfaces/ObjectPoolable.h"
 
 #include "../../Structures/ItemData/ItemData.h"
 #include "../../Enums/ItemSlotType.h"
@@ -14,7 +15,8 @@
  * 
  */
 UCLASS()
-class HELLWORLD_API UWidgetItemSlot : public USlotWidgetBase
+class HELLWORLD_API UWidgetItemSlot : public USlotWidgetBase,
+	public IObjectPoolable
 {
 	GENERATED_BODY()
 	
@@ -44,6 +46,10 @@ private :
 	UPROPERTY()
 	class AWorldItem* VicinityWorldItemActor;
 
+	// 재사용 가능함을 나타냅니다.
+	UPROPERTY()
+	bool bCanRecyclable;
+
 public :
 	virtual void NativeOnInitialized() override;
 
@@ -60,9 +66,24 @@ public :
 		FItemData itemData, EItemSlotType slotType,
 		class AWorldItem* vicinityWorldItemActor = nullptr);
 
+	// 재사용 가능 여부를 나타내는 변수에 대한 접근자 / 설정자
+	FORCEINLINE virtual bool GetCanRecyclable()
+	{ return bCanRecyclable; }
+	FORCEINLINE virtual void SetCanRecyclable(bool canRecyclable)
+	{  bCanRecyclable = canRecyclable; }
+
+	// 아이템 슬롯이 재사용될 때 호출되는 메서드
+	FORCEINLINE virtual void OnRecycleStart() override
+	{ bCanRecyclable = false; }
+
 private :
 	// 버튼 왼쪽 클릭시 호출될 메서드
 	UFUNCTION()
 	void OnWidgetLeftClicked();
+
+public :
+	// 슬롯의 아이템 정보를 반환합니다.
+	FORCEINLINE const FItemData& GetItemData() const
+	{ return ItemData; } 
 
 };

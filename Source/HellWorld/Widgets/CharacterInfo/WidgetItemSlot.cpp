@@ -70,6 +70,7 @@ void UWidgetItemSlot::OnWidgetLeftClicked()
 		break;
 
 	case EItemSlotType::IS_Inventory:
+		Inventory->EquipItem(this);
 		break;
 	}
 
