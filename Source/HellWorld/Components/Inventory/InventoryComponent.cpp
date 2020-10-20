@@ -89,6 +89,10 @@ void UInventoryComponent::EquipItem(UWidgetItemSlot* widgetItemSlot)
 	// 소지중인 아이템 정보들을 Widget 에 업데이트시킵니다.
 	CharacterInfoWidget->UpdateInventoryItems(InventoryItemDatas);
 
+	// 장착중인 아이템의 정보들을 Wiwdget 에 업데이트 시킵니다.
+	CharacterInfoWidget->UpdateEquipItem(EquipItemDatas);
+
+
 	for (int32 i = 0; i < EQUIP_SLOT_COUNT; ++i)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("itemName = %s"),

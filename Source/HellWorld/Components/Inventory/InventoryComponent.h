@@ -48,5 +48,8 @@ public :
 
 	// 전달한 아이템 데이터에 따라 장비 슬롯 인덱스를 반환합니다.
 	int32 GetEquipSlotIndex(const FItemData& itemData);
+
+	FORCEINLINE FItemData* GetEquippedItemData(int32 equipSlotIndex)
+	{ return &EquipItemDatas[equipSlotIndex]; } 
 		
 };

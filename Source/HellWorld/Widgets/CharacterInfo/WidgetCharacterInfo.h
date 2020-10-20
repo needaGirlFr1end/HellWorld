@@ -31,6 +31,9 @@ private:
 	// 인벤토리에 표시중인 슬롯들
 	TArray<class UWidgetItemSlot*> InventoryItemSlotInstances;
 
+	// 장착중인 아이템 슬롯들
+	TArray<class UWidgetEquipItemSlot*> EquipItemSlotInstances;
+
 	// 생성한 UWidgetItemSlot 객체들을 저장하고 있을 풀 객체
 	UPROPERTY()
 	UObjectPool* ItemSlotPool;
@@ -41,6 +44,9 @@ public :
 
 private :
 	void LoadAsset();
+
+	// 장착중인 아이템을 표시하는 슬롯들을 찾습니다.
+	void FindEquipItemSlotInstances();
 	void FindAllWidget();
 
 	// WidgetItemSlot 객체를 생성하여 반환합니다.
@@ -62,6 +68,9 @@ public :
 
 	// 인벤토리 아이템 업데이트
 	void UpdateInventoryItems(const TArray<FItemData>& itemDatas);
+
+	// 장착 아이템 슬롯 업데이트
+	void UpdateEquipItem(const TArray<FItemData>& equipItemDatas);
 
 
 public : 

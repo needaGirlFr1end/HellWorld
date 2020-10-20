@@ -3,11 +3,11 @@
 #include "../../Actors/Controllers/PlayerController/TPSPlayerController.h"
 
 #include "WidgetItemSlot.h"
+#include "WidgetEquipItemSlot.h"
 #include "../../Actors/WorldItem/WorldItem.h"
 #include "../../Enums/ItemSlotType.h"
 
 #include "Components/ScrollBox.h"
-
 
 UWidgetCharacterInfo::UWidgetCharacterInfo(const FObjectInitializer & ObjInitializer) :
 	Super(ObjInitializer)
@@ -24,10 +24,25 @@ void UWidgetCharacterInfo::LoadAsset()
 		ItemSlotWidgetClass = WIDGET_ITEM_SLOT_CLASS.Class;
 }
 
+void UWidgetCharacterInfo::FindEquipItemSlotInstances()
+{
+	EquipItemSlotInstances.Add(Cast<UWidgetEquipItemSlot>(GetWidgetFromName(TEXT("Widget_Gear"))));
+	EquipItemSlotInstances.Add(Cast<UWidgetEquipItemSlot>(GetWidgetFromName(TEXT("Widget_Top"))));
+	EquipItemSlotInstances.Add(Cast<UWidgetEquipItemSlot>(GetWidgetFromName(TEXT("Widget_Bottom"))));
+	EquipItemSlotInstances.Add(Cast<UWidgetEquipItemSlot>(GetWidgetFromName(TEXT("Widget_Backpack"))));
+	EquipItemSlotInstances.Add(Cast<UWidgetEquipItemSlot>(GetWidgetFromName(TEXT("Widget_Weapon1"))));
+	EquipItemSlotInstances.Add(Cast<UWidgetEquipItemSlot>(GetWidgetFromName(TEXT("Widget_Weapon2"))));
+
+	for (int32 i = 0; i < EquipItemSlotInstances.Num(); ++i)
+		EquipItemSlotInstances[i]->InitializeEquipSlot(this, i);
+}
+
 void UWidgetCharacterInfo::FindAllWidget()
 {
 	VicinityItemView = Cast<UScrollBox>(GetWidgetFromName(TEXT("ScrollBox_VicinityItems")));
 	InventoryItemView = Cast<UScrollBox>(GetWidgetFromName(TEXT("ScrollBox_Inventory")));
+
+	FindEquipItemSlotInstances();
 }
 
 UWidgetItemSlot* UWidgetCharacterInfo::CreateItemSlotWidget()
@@ -128,4 +143,10 @@ void UWidgetCharacterInfo::UpdateInventoryItems(const TArray<FItemData>& itemDat
 		// 아이템 슬롯 정보를 초기화합니다.
 		itemSlotInstances->InitializeSlot(this, inventoryItemData, EItemSlotType::IS_Inventory);
 	}
+}
+
+void UWidgetCharacterInfo::UpdateEquipItem(const TArray<FItemData>& equipItemDatas)
+{
+	for (int32 i = 0; i < equipItemDatas.Num(); ++i)
+		EquipItemSlotInstances[i]->UpdateSlot();
 }
